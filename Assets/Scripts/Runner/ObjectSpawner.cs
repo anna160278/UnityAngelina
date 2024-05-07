@@ -10,7 +10,7 @@ public class ObjectSpawner : MonoBehaviour
 
     void Start()
     {
-        // Создаем объект в случайных координатах
+        // РЎРѕР·РґР°РµРј РѕР±СЉРµРєС‚ РІ СЃР»СѓС‡Р°Р№РЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…
         Vector3 randomPosition = new Vector3(
             Random.Range(minPosition.x, maxPosition.x),
             Random.Range(minPosition.y, maxPosition.y),
