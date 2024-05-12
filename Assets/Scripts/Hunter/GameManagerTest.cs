@@ -11,7 +11,7 @@ public class GameManagerTest : MonoBehaviour
     private TargetList list;
     [SerializeField] private Text levelsText;
     [SerializeField] private Text scoreText;
-    public int score; // Убрали начальное значение, оно сохранится между сценами.
+    public int score; // РЈР±СЂР°Р»Рё РЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ, РѕРЅРѕ СЃРѕС…СЂР°РЅРёС‚СЃСЏ РјРµР¶РґСѓ СЃС†РµРЅР°РјРё.
     public bool isNext;
 
     private void Awake()
@@ -29,15 +29,15 @@ public class GameManagerTest : MonoBehaviour
 
     void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded; // Подписка на событие загрузки новой сцены.
+        SceneManager.sceneLoaded += OnSceneLoaded; // РџРѕРґРїРёСЃРєР° РЅР° СЃРѕР±С‹С‚РёРµ Р·Р°РіСЂСѓР·РєРё РЅРѕРІРѕР№ СЃС†РµРЅС‹.
     }
 
     void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded; // Отписка от события.
+        SceneManager.sceneLoaded -= OnSceneLoaded; // РћС‚РїРёСЃРєР° РѕС‚ СЃРѕР±С‹С‚РёСЏ.
     }
 
-    // Метод, который будет вызван после загрузки новой сцены
+    // РњРµС‚РѕРґ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РІС‹Р·РІР°РЅ РїРѕСЃР»Рµ Р·Р°РіСЂСѓР·РєРё РЅРѕРІРѕР№ СЃС†РµРЅС‹
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         FindAndInitializeUI();
@@ -47,23 +47,23 @@ public class GameManagerTest : MonoBehaviour
 
     private void FindAndInitializeUI()
     {
-        // Поиск элементов UI на новой сцене
+        // РџРѕРёСЃРє СЌР»РµРјРµРЅС‚РѕРІ UI РЅР° РЅРѕРІРѕР№ СЃС†РµРЅРµ
         scoreText = GameObject.Find("Score").GetComponent<Text>();
         levelsText = GameObject.Find("Levels").GetComponent<Text>();
 
         if (scoreText == null || levelsText == null)
         {
-            Debug.LogError("Не удалось найти один из элементов UI.");
+            Debug.LogError("РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё РѕРґРёРЅ РёР· СЌР»РµРјРµРЅС‚РѕРІ UI.");
             return;
         }
 
-        // Обновление текста UI с текущими значениями
+        // РћР±РЅРѕРІР»РµРЅРёРµ С‚РµРєСЃС‚Р° UI СЃ С‚РµРєСѓС‰РёРјРё Р·РЅР°С‡РµРЅРёСЏРјРё
         UpdateUI();
     }
 
     private void Start()
     {
-        // Мы вызываем этот метод здесь для инициализации UI элементов на старте игры.
+        // РњС‹ РІС‹Р·С‹РІР°РµРј СЌС‚РѕС‚ РјРµС‚РѕРґ Р·РґРµСЃСЊ РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё UI СЌР»РµРјРµРЅС‚РѕРІ РЅР° СЃС‚Р°СЂС‚Рµ РёРіСЂС‹.
         FindAndInitializeUI();
         isNext = list.levelLoaded;
     }
@@ -74,10 +74,10 @@ public class GameManagerTest : MonoBehaviour
         LoadNextLevel();
     }
 
-    // Обновление UI элементов
+    // РћР±РЅРѕРІР»РµРЅРёРµ UI СЌР»РµРјРµРЅС‚РѕРІ
     private void UpdateUI()
     {
-        if (scoreText != null) // Проверяем, не потеряли ли мы ссылку на scoreText.
+        if (scoreText != null) // РџСЂРѕРІРµСЂСЏРµРј, РЅРµ РїРѕС‚РµСЂСЏР»Рё Р»Рё РјС‹ СЃСЃС‹Р»РєСѓ РЅР° scoreText.
         {
             scoreText.text = "SCORE: " + score.ToString();
         }
@@ -104,7 +104,7 @@ public class GameManagerTest : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Отписываемся от события, чтобы избежать утечек памяти.
+        // РћС‚РїРёСЃС‹РІР°РµРјСЃСЏ РѕС‚ СЃРѕР±С‹С‚РёСЏ, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ СѓС‚РµС‡РµРє РїР°РјСЏС‚Рё.
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
