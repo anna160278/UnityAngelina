@@ -13,7 +13,7 @@ public class GunController : MonoBehaviour
     public float verticalRange = 90f;
 
     private Quaternion gunRotation;
-    private float verticalAngle = 45f;  // Начальный угол
+    private float verticalAngle = 45f;  // РќР°С‡Р°Р»СЊРЅС‹Р№ СѓРіРѕР»
 
     private Camera _camera;
     private Transform _spawnPoint;
@@ -26,11 +26,11 @@ public class GunController : MonoBehaviour
     {
         Quaternion old_camera_rotation = camera_rotation;
         Input.ResetInputAxes();
-        Cursor.lockState = CursorLockMode.Locked;   // Замыкаем курсор в центре экрана.
-        Cursor.visible = false;                     // Скрываем курсор.
+        Cursor.lockState = CursorLockMode.Locked;   // Р—Р°РјС‹РєР°РµРј РєСѓСЂСЃРѕСЂ РІ С†РµРЅС‚СЂРµ СЌРєСЂР°РЅР°.
+        Cursor.visible = false;                     // РЎРєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ.
 
-        gunRotation = Quaternion.identity;          // Устанавливаем вращение ружья по умолчанию.
-        transform.localRotation = gunRotation;      // Применяем начальное вращение.
+        gunRotation = Quaternion.identity;          // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РІСЂР°С‰РµРЅРёРµ СЂСѓР¶СЊСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.
+        transform.localRotation = gunRotation;      // РџСЂРёРјРµРЅСЏРµРј РЅР°С‡Р°Р»СЊРЅРѕРµ РІСЂР°С‰РµРЅРёРµ.
 
         
         transform.position = new Vector3(-115.569f, 14.0220003f, 159.243057f);
@@ -44,8 +44,8 @@ public class GunController : MonoBehaviour
     {
         if (Cursor.lockState != CursorLockMode.Locked)
         {
-            Cursor.visible = false;                 // Убедитесь что курсор невидим.
-            Cursor.lockState = CursorLockMode.Locked; // Повторно блокируем курсор.
+            Cursor.visible = false;                 // РЈР±РµРґРёС‚РµСЃСЊ С‡С‚Рѕ РєСѓСЂСЃРѕСЂ РЅРµРІРёРґРёРј.
+            Cursor.lockState = CursorLockMode.Locked; // РџРѕРІС‚РѕСЂРЅРѕ Р±Р»РѕРєРёСЂСѓРµРј РєСѓСЂСЃРѕСЂ.
         }
 
         if (Input.GetMouseButton(1))
@@ -53,7 +53,7 @@ public class GunController : MonoBehaviour
             isZoom = true;
             Quaternion rotation = Quaternion.LookRotation(_spawnPoint.forward);
             Vector3 eulerRotation = rotation.eulerAngles;
-            eulerRotation.x += 5f; // Отрицательное значение для смещения 
+            eulerRotation.x += 5f; // РћС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ СЃРјРµС‰РµРЅРёСЏ
             rotation = Quaternion.Euler(eulerRotation);
             _camera.transform.rotation = rotation;
         }
@@ -62,30 +62,29 @@ public class GunController : MonoBehaviour
             isZoom = false;
             camera_rotation = new Quaternion(0f, 0, 0, 0);
 
-            // Получаем движение мыши
+           // РџРѕР»СѓС‡Р°РµРј РґРІРёР¶РµРЅРёРµ РјС‹С€Рё
             float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
-            // Добавляем горизонтальное движение мыши к текущему углу
+            // Р”РѕР±Р°РІР»СЏРµРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРµ РґРІРёР¶РµРЅРёРµ РјС‹С€Рё Рє С‚РµРєСѓС‰РµРјСѓ СѓРіР»Сѓ
             float newRotationY = transform.localEulerAngles.y + mouseX;
 
-            // Добавляем вертикальное движение мыши к текущему углу, с учётом ограничения
+            // Р”РѕР±Р°РІР»СЏРµРј РІРµСЂС‚РёРєР°Р»СЊРЅРѕРµ РґРІРёР¶РµРЅРёРµ РјС‹С€Рё Рє С‚РµРєСѓС‰РµРјСѓ СѓРіР»Сѓ, СЃ СѓС‡С‘С‚РѕРј РѕРіСЂР°РЅРёС‡РµРЅРёСЏ
             verticalAngle -= mouseY;
             verticalAngle = Mathf.Clamp(verticalAngle, -verticalRange, verticalRange);
 
-            // Применяем ограничение по оси Y
+            // РџСЂРёРјРµРЅСЏРµРј РѕРіСЂР°РЅРёС‡РµРЅРёРµ РїРѕ РѕСЃРё Y
             if (newRotationY > 180f)
             {
                 newRotationY -= 360f;
             }
 
-            // Применяем ограничение по оси Y
             newRotationY = Mathf.Clamp(newRotationY, -45f, 45f);
 
-            // Применяем вращение
+            // РџСЂРёРјРµРЅСЏРµРј РІСЂР°С‰РµРЅРёРµ
             transform.localEulerAngles = new Vector3(0f, newRotationY, verticalAngle);
 
-            // Лочим курсор
+           // Р›РѕС‡РёРј РєСѓСЂСЃРѕСЂ
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
@@ -127,20 +126,20 @@ public class GunController : MonoBehaviour
  */
 
 /*
-  // Получаем движение мыши
+  // РџРѕР»СѓС‡Р°РµРј РґРІРёР¶РµРЅРёРµ РјС‹С€Рё
  float horizontal = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
  float vertical = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
- // Добавляем движение мыши к текущему углу
+ // Р”РѕР±Р°РІР»СЏРµРј РґРІРёР¶РµРЅРёРµ РјС‹С€Рё Рє С‚РµРєСѓС‰РµРјСѓ СѓРіР»Сѓ
  verticalAngle += vertical;
- verticalAngle = Mathf.Clamp(verticalAngle, -verticalRange, verticalRange); // Ограничение углов в пределах диапазона
+ verticalAngle = Mathf.Clamp(verticalAngle, -verticalRange, verticalRange); // РћРіСЂР°РЅРёС‡РµРЅРёРµ СѓРіР»РѕРІ РІ РїСЂРµРґРµР»Р°С… РґРёР°РїР°Р·РѕРЅР°
 
- // Вращение ружья
- // Горизонт (Y)
+ // Р’СЂР°С‰РµРЅРёРµ СЂСѓР¶СЊСЏ
+// Р“РѕСЂРёР·РѕРЅС‚ (Y)
  gunRotation *= Quaternion.Euler(0f, horizontal, 0f);
- // Вертикал (Х) с ограничениями
- gunRotation = Quaternion.Euler(verticalAngle, gunRotation.eulerAngles.y, 0f);
+ // Р’РµСЂС‚РёРєР°Р» (РҐ) СЃ РѕРіСЂР°РЅРёС‡РµРЅРёСЏРјРё
+gunRotation = Quaternion.Euler(verticalAngle, gunRotation.eulerAngles.y, 0f);
 
- // Применяем вращение - это указатель на объект ружья
+// РџСЂРёРјРµРЅСЏРµРј РІСЂР°С‰РµРЅРёРµ - СЌС‚Рѕ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕР±СЉРµРєС‚ СЂСѓР¶СЊСЏ
  transform.localRotation = gunRotation;
  */
